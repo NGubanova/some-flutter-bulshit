@@ -34,7 +34,7 @@ class AppNoteController extends ResourceController{
 
           final List<Note> userNote = await qUserNote.fetch();
 
-          if(userNote.isEmpty) return AppResponse.ok(message: "Операции не найдены!");
+          if(userNote.isEmpty) return AppResponse.ok(message: "Записи не найдены!");
 
           return Response.ok(userNote);
 
@@ -53,7 +53,7 @@ class AppNoteController extends ResourceController{
 
           final List<Note> userNote = await qUserNote.fetch();
           
-          if(userNote.isEmpty) return AppResponse.ok(message: "Операции не найдены!");
+          if(userNote.isEmpty) return AppResponse.ok(message: "Записи не найдены!");
 
           return Response.ok(userNote);
 
@@ -76,7 +76,7 @@ class AppNoteController extends ResourceController{
 
         final Note? userNote = await qUserNote.fetchOne();
 
-        if(userNote == null) return AppResponse.ok(message: "Операция не найдена!");
+        if(userNote == null) return AppResponse.ok(message: "Запись не найдена!");
 
         final Note? userNote_ = await managedContext.fetchObjectWithID<Note>(userNote.id);
         userNote_!.removePropertiesFromBackingMap(["user"]);
@@ -106,8 +106,8 @@ class AppNoteController extends ResourceController{
             ..values.nameNote = note.nameNote
             ..values.content = note.content
             ..values.category = note.category
-            ..values.dateCreation = note.dateCreation
-            ..values.dateEdit = note.dateEdit
+            ..values.dateCreation = DateTime.now()
+            ..values.dateEdit = DateTime.now()
             ..values.user = user;
         
         final createNote = await qCreateNote.insert();
@@ -117,7 +117,7 @@ class AppNoteController extends ResourceController{
         final Note? createdNote = await managedContext.fetchObjectWithID<Note>(newNoteId);
         createdNote!.removePropertiesFromBackingMap(["user"]);
 
-        return Response.ok(ModelResponse(data: createdNote.backing.contents, message: "Операция успешно создана!"));
+        return Response.ok(ModelResponse(data: createdNote.backing.contents, message: "Запись успешно создана!"));
 
       } on QueryException catch(e) {
         return AppResponse.serverError(e, message: e.message);
@@ -133,16 +133,16 @@ class AppNoteController extends ResourceController{
         final uid = AppUtils.getIdFromHeader(header);
         final note = await managedContext.fetchObjectWithID<Note>(id);
 
-        if(note == null) return Response.badRequest(body: "Операция не найдена!");
+        if(note == null) return Response.badRequest(body: "Запись не найдена!");
 
-        if(note.user?.id != uid) return AppResponse.ok(message: "У вас нет доступа к данной опреации!");
+        if(note.user?.id != uid) return AppResponse.ok(message: "У вас нет доступа к данной записи!");
 
         final qNoteDelete = Query<Note>(managedContext)
           ..where((x) => x.id).equalTo(id);
 
         qNoteDelete.delete();
 
-        return AppResponse.ok(message: "Операция удалена!");
+        return AppResponse.ok(message: "Запись удалена!");
       } catch(e){
         return AppResponse.serverError(e, message: "Произошла ошибка!");
       }
@@ -162,19 +162,18 @@ class AppNoteController extends ResourceController{
 
         if(user == null) return AppResponse.ok(message: "Пользователь не найден!");
         
-        if(user.id != currentNote?.user?.id) return AppResponse.ok(message: "У вас нет доступа к данной опреации!");
+        if(user.id != currentNote?.user?.id) return AppResponse.ok(message: "У вас нет доступа к данной записи!");
 
         final qUpdateNote = Query<Note>(managedContext)
             ..where((x) => x.id).equalTo(id)
             ..values.nameNote = note.nameNote
             ..values.content = note.content
             ..values.category = note.category
-            ..values.dateCreation = note.dateCreation
-            ..values.dateEdit = note.dateEdit;
+            ..values.dateEdit = DateTime.now();
 
         qUpdateNote.update();
 
-        return AppResponse.ok(message: "Операция изменена!");
+        return AppResponse.ok(message: "Запись изменена!");
 
       } on QueryException catch(e) {
         return AppResponse.serverError(e, message: e.message);
