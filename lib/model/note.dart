@@ -1,5 +1,3 @@
-
-
 import 'package:big/model/user.dart';
 import 'package:conduit/conduit.dart';
 
@@ -23,6 +21,9 @@ class _Note {
 
   @Column(unique: true, indexed: true)
   DateTime? dateEdit;
+
+  @Column(nullable: true)
+  late bool status;
 
   @Relate(#noteList, isRequired: true, onDelete: DeleteRule.cascade)
   late User? user;
