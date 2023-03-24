@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:conduit_core/conduit_core.dart';   
+import 'package:conduit/conduit.dart';   
 
 class Migration3 extends Migration { 
   @override
   Future upgrade() async {
-   		database.deleteColumn("_User", "password");
+   		database.addColumn("_Note", SchemaColumn("status", ManagedPropertyType.boolean, isPrimaryKey: false, autoincrement: false, isIndexed: false, isNullable: true, isUnique: false));
   }
   
   @override

@@ -1,5 +1,5 @@
 username: "postgres"
-password: "1"
+password: "1433"
 host: "localhost"
 port: 5432
-databaseName: "postgres"
+databaseName: "conduitapi"

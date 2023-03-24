@@ -4,7 +4,7 @@ import 'package:conduit/conduit.dart';
 import 'package:big/big.dart';
 
 void main() async {
-  final port = int.parse(Platform.environment["PORT"] ?? '8888');
+  final port = int.parse(Platform.environment["PORT"] ?? '2222');
 
   final service = Application<AppService>()
     ..options.port = port
