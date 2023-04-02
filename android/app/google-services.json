@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "566979228305",
+    "project_id": "emoji-1cece",
+    "storage_bucket": "emoji-1cece.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566979228305:android:d75d17916b99d63e100530",
+        "android_client_info": {
+          "package_name": "com.example.emoji"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566979228305-dab1iigjd5mueldsosqgopgljk9ihba7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdtT95gMCcP8avQOy9nPMhIpZIyj7FHqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566979228305-dab1iigjd5mueldsosqgopgljk9ihba7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
