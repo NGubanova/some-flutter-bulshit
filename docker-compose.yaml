@@ -1,48 +1,33 @@
-version: '3.1'
-
-# backend : 6100
-# db : 6101
-
+name: conduit_api
+version: '0.1.0'
 services:
-  db:
-    container_name: db
+  app:
+    build: .
     ports:
-      - "6101:6101"
-    environment:
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_USER=admin
-    image: postgres:14.3-alpine
-    command:
-      - "postgres"
-      - "-c"
-      - "port=6101"
+      - "8080:8080"
     volumes:
-      - db_vol:/var/lib/postgresql/data/
+      - '.:/app'
     networks:
-      - internal_net
-  backend:
-    build: ./
-    container_name: backend
-    ports:
-      - 6100:6100
-    environment:
-      - SECRET_KEY=SECRET_KEY
-      - PORT=6100
-      - DB_USERNAME=admin
-      - DB_PASSWORD=root
-      - DB_HOST=db
-      - DB_PORT=6101
-      - DB_NAME=postgres
+      - my_network
     depends_on:
-      - db
+      - postgres_api
+    environment:
+      DB_HOST: postgres_api
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: 1
+      DB_NAME: financialAccounting
+      SECRET_KEY: SECRET_KEY
+  postgres_api:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: financialAccounting
+    ports:
+      - 5432:5432
     networks:
-      - internal_net
-
-  
-
-volumes:
-  db_vol: {}
+      - my_network
 
 networks:
-  internal_net:
-    driver: bridge
+  my_network:
